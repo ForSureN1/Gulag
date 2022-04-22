@@ -5,6 +5,7 @@
 
 let contentPrison = document.getElementById('info');
 let contentMap = document.querySelector('.map');
+let contentMapContainer = document.querySelector('.map__container');
 if(contentMap) {
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ3VsYWsxMjMiLCJhIjoiY2wyNW83OTlpMGZ5dDNxcDZwZmdieGw5biJ9.fnNit_spVwxIep_ahOTQkQ';
@@ -31,7 +32,7 @@ if(contentMap) {
                     "history": "<p>Lorem ipsum</p><p>Lorem ipsum</p><p>Lorem ipsum</p>",
                     "source": "Система исправительно-трудовых лагерей в СССР, 1923–1960: справочник / составитель М. Б. Смирнов; под редакцией Н. Г. Охотина, А. Б. Рогинского. М., 1998.",
                     "link": "https://www.novayagazeta.ru/articles/2008/12/04/35579-ostrov-alzhir-v-arhipelage-gulag",
-                    "files": ['img/pr1.jpg','img/pr2.jpg','img/pr3.jpg'],
+                    "files": ['img/pr1.jpg','img/pr2.jpg','img/pr3.jpg','img/pr3.jpg','img/pr3.jpg','img/pr3.jpg','img/pr3.jpg'],
                     "stats": {
                         '1989': 3000,
                         '1999': 5000,
@@ -1065,26 +1066,25 @@ if(contentMap) {
         // console.log(objSource)
         // console.log(objLink)
         // console.log(objFiles)
-        console.log(typeof(objStats))
-        if (!contentPrison.classList.contains('active')) {
-            contentPrison.classList.add('active')
-        }
+        // console.log(typeof(objStats))
     
         if (pointCurrentId === features[0].properties.id) {
-            e.preventDefault();
+            // e.preventDefault();
         } else {
             pointCurrentId = features[0].properties.id;
             // Анимация появления блока
-            contentPrison.animate([
-                { top: '70%' },
-                { top: '30%' },
-            ], { duration: 300, fill: 'forwards' });
+            if(contentPrison.classList.contains('active')) {
+              contentPrison.animate([
+                { transform: 'translateY(40%)' },
+                { transform: 'translateY(0%)' },
+            ], { duration: 400, fill: 'forwards', easing: 'ease-in' });
+            }
             // Вывод контента 
             htmlMapTitle.textContent = objTitle; //Заголовок
             htmlMapSize.textContent = objSize //Размер населённого пункта
             htmlMapHistory.innerHTML = objHistory //История лагеря
             htmlMapSource.textContent = objSource //Источник
-            htmlMapLink.textContent = objLink //Ссылка
+            htmlMapLink.innerHTML = objLink //Ссылка
             htmlMapLink.setAttribute('href', objLink)
             // Вывод изображений
             if(objFiles != 0) {
@@ -1109,7 +1109,7 @@ if(contentMap) {
             })
             let nodeStats = document.querySelectorAll('.info__content-count span');
             let nodeLineStats = document.querySelectorAll('.info__content-count');
-            let statsWidth = document.querySelector('.info__content-stats').offsetWidth;
+            let statsWidth = document.querySelector('.info__content-grafic').offsetWidth;
             let arrayStats = [];
             nodeStats.forEach(item => { arrayStats.push(parseInt(item.textContent)) })
         
@@ -1118,7 +1118,7 @@ if(contentMap) {
             }
             let scaleX = d3.scaleLinear()
                 .domain([0, getMaxOfArray(arrayStats)])
-                .range([0, statsWidth]);
+                .range([0, statsWidth - 100]);
             nodeLineStats.forEach((line, i) => {
                 if (arrayStats[i] === 0) {
                     line.querySelector('span').textContent = 'нет данных';
@@ -1134,14 +1134,26 @@ if(contentMap) {
             ],
             essential: true
         })
-        // Открытие точки если блок контента скрыт
-        contentMap.classList.add('active');
+        // Первое открытие контента
+        if (!contentPrison.classList.contains('active')) {
+          contentPrison.classList.add('active');
+          contentMap.classList.add('active');
+          contentPrison.animate([
+              { top: '100vh' },
+              { top: '30%' },
+          ], { duration: 500, fill: 'forwards' });
+          // contentPrison.style.top = '0%';
+          // Сдвигаем карту на 30% вверх
+
+        }
     });
     
+    // hover cursor pointer on point
     map.on('mouseenter', 'circle', () => {
         map.getCanvas().style.cursor = 'pointer';
     });
     
+    // cursor default outer point
     map.on('mouseleave', 'circle', () => {
         map.getCanvas().style.cursor = ''
     })
@@ -1162,8 +1174,15 @@ let closeMap = document.querySelector('.close-content-map');
 if(closeMap) {
     closeMap.addEventListener('click', () => {
         if(contentMap.classList.contains('active')) {
+          let contentAnimate = contentPrison.animate([
+            { top: '30%' },
+            { top: '100vh' },
+        ], { duration: 500, fill: 'forwards'});
+        contentAnimate.addEventListener('finish', () => {
+          contentPrison.classList.remove('active')
+        })
+
             contentMap.classList.remove('active')
-            contentPrison.classList.remove('active')
         }
     })
 }
