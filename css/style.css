@@ -94,6 +94,10 @@ body {
   justify-content: space-between;
 }
 
+body::-webkit-scrollbar {
+  width: 0;
+}
+
 ul[class],
 ol[class] {
   list-style: none;
@@ -182,6 +186,10 @@ select {
 }
 
 .header__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 107px;
   height: 29px;
 }
@@ -346,6 +354,10 @@ select {
   width: 100%;
 }
 
+.mainbody .js-anim {
+  opacity: 0;
+}
+
 .hero {
   height: 100vh;
   background: url("../img/mainBG.jpg") center no-repeat;
@@ -369,6 +381,18 @@ select {
   text-align: center;
 }
 
+.hero__intro-decor {
+  max-width: 340px;
+  display: inline-block;
+  margin-bottom: 40px;
+}
+
+.hero__intro-decor svg {
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
 .hero__title {
   position: relative;
   font-size: 250px;
@@ -376,18 +400,6 @@ select {
   background: linear-gradient(259.49deg, rgba(255, 255, 255, 0.1) 25.51%, rgba(255, 255, 255, 0.2) 59.05%, #FFFFFF 71.37%, rgba(255, 255, 255, 0.14) 83.69%, rgba(255, 255, 255, 0.11) 104.92%);
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-}
-
-.hero__title::before {
-  position: absolute;
-  content: "";
-  left: 50%;
-  transform: translateX(-50%);
-  top: -50px;
-  background: url("../img/decor1.svg") center no-repeat;
-  width: 100%;
-  max-width: 400px;
-  height: 30px;
 }
 
 .hero__text {
@@ -961,6 +973,66 @@ select {
   pointer-events: none;
 }
 
+.preloader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  background-color: #000000;
+}
+
+.preloader__item {
+  font-size: 24px;
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+.preloader__item span {
+  -webkit-animation: preloadAnim 1s linear infinite;
+          animation: preloadAnim 1s linear infinite;
+}
+
+.preloader__item span:nth-child(1) {
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s;
+}
+
+.preloader__item span:nth-child(2) {
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
+}
+
+.preloader__item span:nth-child(3) {
+  -webkit-animation-delay: 0.8s;
+          animation-delay: 0.8s;
+}
+
+@-webkit-keyframes preloadAnim {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes preloadAnim {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 1650px) {
   .container {
     max-width: 1400px;
@@ -1397,7 +1469,6 @@ select {
   }
 
   .header__lang {
-    display: none;
     -moz-column-gap: 16px;
          column-gap: 16px;
   }

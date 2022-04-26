@@ -59,6 +59,7 @@ if(contentMap) {
                     "stats": {
                         '1995': 10000,
                         '2000': 45000,
+                        '2001': 0,
                     },
                 },
                 "geometry": {
@@ -1188,11 +1189,9 @@ if(closeMap) {
 }
 
 
-
+document.querySelector('body').style.overflow = 'hidden';
 window.onload = () => {
     let sliderSection = document.querySelector('.slider');
-
-
     if (sliderSection) {
         let newSwiper = undefined;
         window.addEventListener('resize', initSlider);
@@ -1250,6 +1249,64 @@ window.onload = () => {
             }
         })
     }
+    let preloader = document.querySelector('.preloader');
+    if(preloader && contentMap) {
+      map.on('load', () => {
+        closePreloader();
+        document.querySelector('body').style.overflow = 'unset';
+      })
+    } else if(preloader) {
+      closePreloader();
+    }
+    function closePreloader() {
+      let animpreloader = preloader.animate([
+        {opacity: '1'},
+        {opacity: '0'}
+      ], {duration: 300, easing: 'ease-out'});
+      animpreloader.addEventListener('finish', () => {
+        preloader.style.display = 'none';
+      })
+    }
+    let mainBody = document.querySelector('.mainbody');
+    if(mainBody) {
+      let mainText = document.querySelector('.hero__title');
+      let mainTextSplit = mainText.textContent.split('');
+      let newWord = '';
+      mainTextSplit.forEach((item, i) => {
+        newWord += `<span>${item}</span>`;
+      })
+      mainText.innerHTML = newWord;
+      let spanMainText = mainText.querySelectorAll('span');
+      let spanAnimationTimeout;
+      let opacityAnimationTimeout;
+      spanMainText.forEach((span, i) => {
+        let animSpan = span.animate([
+          {opacity: '0'},
+          {opacity: '1'}
+        ], {
+          duration: 100,
+          delay: 300*i, 
+          easing: 'ease-in'});
+          animSpan.addEventListener('finish', () => {
+            clearTimeout(spanAnimationTimeout);
+            spanAnimationTimeout = setTimeout(animationSpan, 500);
+          })
+          function animationSpan() {
+              let animationElements = document.querySelectorAll('.js-anim');
+              animationElements.forEach((item, i) => {
+              let animItem = item.animate([
+                {opacity: '0'},
+                {opacity: '1'}
+              ], {duration: 600, delay: 500*i, easing: 'ease-out', fill: 'forwards'});
+              animItem.addEventListener('finish', () => {
+                clearTimeout(opacityAnimationTimeout);
+                opacityAnimationTimeout = setTimeout(()=>{document.querySelector('body').style.overflow = 'unset';}, 500);
+              })
+            })
+          }
+      })
+
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1258,9 +1315,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prisonCards) {
         prisonCards.forEach(card => {
             card.addEventListener('mouseover', () => {
-                let src = card.getAttribute('data-src');
-                prisonParent.animate([{ opacity: .80 }, { opacity: 1 }], { duration: 300 })
-                prisonParent.style.backgroundImage = `url(${src})`;
+                // let src = card.getAttribute('data-src');
+                // prisonParent.animate([{ opacity: .80 }, { opacity: 1 }], { duration: 300 })
+                // prisonParent.style.backgroundImage = `url(${src})`;
                 // console.log(src)
             })
         })

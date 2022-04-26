@@ -7,19 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     <title>Главная</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css?_v=20220422162254" />
-    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js?_v=20220422162254'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css?_v=20220422162254' rel='stylesheet' /> -->
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js?_v=20220422162254'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css?_v=20220422162254' rel='stylesheet' />
-    <link rel="stylesheet" href="css/style.min.css?_v=20220422162254">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css?_v=20220426161040" />
+    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js?_v=20220426161040'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css?_v=20220426161040' rel='stylesheet' /> -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js?_v=20220426161040'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css?_v=20220426161040' rel='stylesheet' />
+    <link rel="stylesheet" href="css/style.min.css?_v=20220426161040">
 </head>
 
 <body  class="innermap">
     <header class="header">
     <div class="container">
         <div class="header__container">
-            <a href="javascript:;" class="header__menu">
+            <a href="javascript:;" class="header__menu js-anim">
                 <svg class="open-menu" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="5" height="5" rx="1" fill="white"/>
                     <rect y="12" width="5" height="5" rx="1" fill="white"/>
@@ -31,21 +31,21 @@
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M0.707108 0.707107C1.09763 0.316582 1.79411 0.379899 2.26274 0.848528L17.5363 16.122C18.0049 16.5907 18.0682 17.2871 17.6777 17.6777C17.2871 18.0682 16.5907 18.0049 16.122 17.5362L0.84853 2.26274C0.379901 1.79411 0.316584 1.09763 0.707108 0.707107Z" fill="#F9F7F4"/>
                 </svg> <span>menu</span>
             </a>
-            <a href="#" class="header__logo">
+            <a href="#" class="header__logo js-anim">
                 <img src="img/logo.svg" alt="">
             </a>
             <div class="header__lang">
-                <a href="#" class="header__lang-item active">en</a>
-                <a href="#" class="header__lang-item">ru</a>
-                <a href="#" class="header__lang-item">kz</a>
+                <a href="#" class="header__lang-item active js-anim">en</a>
+                <a href="#" class="header__lang-item js-anim">ru</a>
+                <a href="#" class="header__lang-item js-anim">kz</a>
             </div>
-            <div class="header__lang-down">
+            <!-- <div class="header__lang-down">
                 <div class="lang-down_active">EN</div>
                 <div class="header__lang-other">
                     <a href="#" class="lang-down">RU</a>
                     <a href="#" class="lang-down">KZ</a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="header__nav">
@@ -84,6 +84,11 @@
         </div>
     </div>
 </header>
+    <div class="preloader">
+    <div class="preloader__item">
+        Загрузка<span>.</span><span>.</span><span>.</span>
+    </div>
+</div>
         <section class="map">
             <div class="map__container">
                 <div id="map"></div>
@@ -150,15 +155,15 @@
 
         </section>
     
-    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js?_v=20220422162254"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-array@3?_v=20220422162254"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-color@3?_v=20220422162254"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-format@3?_v=20220422162254"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-interpolate@3?_v=20220422162254"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-time@3?_v=20220422162254"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-time-format@4?_v=20220422162254"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-scale@4?_v=20220422162254"></script>
-    <script src="js/app.js?_v=20220422162254"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js?_v=20220426161040"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-array@3?_v=20220426161040"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-color@3?_v=20220426161040"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-format@3?_v=20220426161040"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-interpolate@3?_v=20220426161040"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-time@3?_v=20220426161040"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-time-format@4?_v=20220426161040"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-scale@4?_v=20220426161040"></script>
+    <script src="js/app.js?_v=20220426161040"></script>
 </body>
 
 </html>
