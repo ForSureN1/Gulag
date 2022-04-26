@@ -1305,7 +1305,10 @@ window.onload = () => {
             })
           }
       })
-
+    }
+    let mainSection = document.querySelector('.hero');
+    if(mainSection) {
+      mainSection.style.height = 100 + 'vh';
     }
 }
 
