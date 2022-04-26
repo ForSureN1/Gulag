@@ -362,7 +362,7 @@ select {
   height: 100vh;
   background: url("../img/mainBG.jpg") center no-repeat;
   background-size: cover;
-  min-height: 700px;
+  min-height: 600px;
 }
 
 .hero .container {
