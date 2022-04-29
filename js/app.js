@@ -8,7 +8,7 @@ let contentMap = document.querySelector('.map');
 let contentMapContainer = document.querySelector('.map__container');
 if(contentMap) {
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZ3VsYWsxMjMiLCJhIjoiY2wyNW83OTlpMGZ5dDNxcDZwZmdieGw5biJ9.fnNit_spVwxIep_ahOTQkQ';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ3VsYWsxMjMiLCJhIjoiY2wyNDgzbjUyMGluczNncDk1MHlheGNsNiJ9.4nOUSEub8-sL4CUDVdQR-A';
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/gulak123/cl25ozzsm000414mo0rgvu5fv',
@@ -1046,7 +1046,7 @@ if(contentMap) {
             'layout': {},
             'paint': {
             'fill-color': '#3E5983', // blue color fill
-            'fill-opacity': 0.5
+            'fill-opacity': 0.6
             }
         });
         map.addLayer({
@@ -1055,8 +1055,8 @@ if(contentMap) {
             'source': 'maine',
             'layout': {},
             'paint': {
-            'line-color': '#fff',
-            'line-opacity': .15,
+            'line-color': '#d12d4a',
+            'line-opacity': .45,
             'line-width': 3
             }
         });
@@ -1235,12 +1235,12 @@ if(contentMap) {
       let allType = document.querySelector('#type-all');
       let lagType = document.querySelector('#type-lag');
       let admType = document.querySelector('#type-admin');
-      console.log(allType)
-      console.log(lagType)
-      console.log(admType)
+      // console.log(allType)
+      // console.log(lagType)
+      // console.log(admType)
       allType.addEventListener('click', () => {
         if(allType.checked) {
-          map.setLayoutProperty('point', 'visibility', 'visible');
+          // map.setLayoutProperty('point', 'visibility', 'visible');
           lagType.checked = true;
           admType.checked = true;
           document.querySelectorAll('.lags').forEach(item => {
@@ -1250,7 +1250,7 @@ if(contentMap) {
             item.style.opacity = 1;
           })
         } else {
-          map.setLayoutProperty('point', 'visibility', 'none');
+          // map.setLayoutProperty('point', 'visibility', 'none');
           lagType.checked = false;
           admType.checked = false;
           document.querySelectorAll('.lags').forEach(item => {
@@ -1263,12 +1263,12 @@ if(contentMap) {
       });
       lagType.addEventListener('click', () => {
         if(lagType.checked) {
-          map.setLayoutProperty('point', 'visibility', 'visible');
+          // map.setLayoutProperty('point', 'visibility', 'visible');
           document.querySelectorAll('.lags').forEach(item => {
             item.style.opacity = 1;
           })
         } else {
-          map.setLayoutProperty('point', 'visibility', 'none');
+          // map.setLayoutProperty('point', 'visibility', 'none');
           document.querySelectorAll('.lags').forEach(item => {
             item.style.opacity = 0;
           })
@@ -1400,6 +1400,7 @@ window.onload = () => {
       })
     } else if(preloader) {
       closePreloader();
+      document.querySelector('body').style.overflow = 'unset';
     }
     function closePreloader() {
       let animpreloader = preloader.animate([

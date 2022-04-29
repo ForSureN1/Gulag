@@ -88,7 +88,7 @@ body {
   font-size: 18px;
   font-family: HelveticaNeueCyr;
   font-weight: 400;
-  background: #ffffff;
+  background: #000000;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1178,6 +1178,84 @@ select {
   cursor: pointer;
 }
 
+.rates__info-title {
+  font-weight: 500;
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  max-width: 90%;
+}
+
+.rates__info-text {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 120%;
+  max-width: 90%;
+  margin-bottom: 40px;
+}
+
+.rates__info-text a {
+  font-weight: 500;
+  color: #33CC99;
+  text-decoration: underline;
+  transition: 0.2s linear;
+}
+
+.rates__info-text a:hover {
+  color: #4f6ac3;
+}
+
+.rates__info-media {
+  margin-bottom: 20px;
+  width: 100%;
+  max-height: 600px;
+  height: 100%;
+}
+
+.rates__info-media img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.content {
+  background: url("../img/prisonBG.jpg") top right no-repeat;
+  background-size: contain;
+  padding-top: 180px;
+  color: #ffffff;
+}
+
+.content__container {
+  display: flex;
+  justify-content: space-between;
+  -moz-column-gap: 2%;
+       column-gap: 2%;
+}
+
+.content__item {
+  width: 49%;
+}
+
+.content__item:nth-child(1) {
+  max-width: 780px;
+  width: 100%;
+  flex-shrink: 0;
+  border-right: 1px solid #ffffff;
+  padding-right: 40px;
+}
+
+.content__title {
+  font-size: 80px;
+  font-family: Horta;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 80px;
+}
+
 @media (max-width: 1650px) {
   .container {
     max-width: 1400px;
@@ -1268,6 +1346,10 @@ select {
   .filter__box {
     padding: 50px 25px;
   }
+
+  .content__title {
+    font-size: 60px;
+  }
 }
 
 @media (max-width: 1350px) {
@@ -1313,6 +1395,10 @@ select {
     min-height: 800px;
     padding-top: 0;
   }
+
+  .content__title {
+    font-size: 50px;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -1339,6 +1425,10 @@ select {
 
   .filter {
     left: 50px;
+  }
+
+  .content__item:nth-child(1) {
+    max-width: 600px;
   }
 }
 
@@ -1467,6 +1557,15 @@ select {
     justify-content: center;
     width: 33%;
   }
+
+  .content {
+    padding-top: 130px;
+  }
+
+  .content__item:nth-child(1) {
+    max-width: 550px;
+    flex-shrink: 1;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1520,6 +1619,28 @@ select {
 
   .filter__row-type {
     width: 100%;
+  }
+
+  .content__container {
+    flex-direction: column-reverse;
+  }
+
+  .content__item:nth-child(1) {
+    max-width: 100%;
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .content__item {
+    width: 100%;
+  }
+
+  .content__item:nth-child(2) {
+    margin-bottom: 32px;
+  }
+
+  .content__title {
+    font-size: 40px;
   }
 }
 
@@ -1730,6 +1851,14 @@ select {
 
   .info__content-images img {
     height: 140px;
+  }
+
+  .rates__info-title {
+    max-width: 100%;
+  }
+
+  .rates__info-text {
+    max-width: 100%;
   }
 }
 
