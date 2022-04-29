@@ -20,7 +20,7 @@ if(contentMap) {
         viewportChangeMethod: 'linear'
     });
     
-    const geojson = {
+    const geojsonLags = {
         "type": "FeatureCollection",
         "features": [
             {
@@ -71,6 +71,35 @@ if(contentMap) {
                 }
             },
         ]
+    };
+
+    const geojsonAdmins = {
+      "type": "FeatureCollection",
+      "features": [
+          {
+              "type": "Feature",
+              "properties": {
+                  'id': 3,
+                  "title": "Административный центр",
+                  "size": "500",
+                  "history": "<p>Lorem ipsum</p><p>Lorem ipsum</p><p>Lorem ipsum</p>",
+                  "source": "Система исправительно-трудовых лагерей в СССР, 1923–1960: справочник / составитель М. Б. Смирнов; под редакцией Н. Г. Охотина, А. Б. Рогинского. М., 1998.",
+                  "link": "https://www.novayagazeta.ru/articles/2008/12/04/35579-ostrov-alzhir-v-arhipelage-gulag",
+                  "files": ['img/pr1.jpg','img/pr2.jpg','img/pr3.jpg','img/pr3.jpg','img/pr3.jpg','img/pr3.jpg','img/pr3.jpg'],
+                  "stats": {
+                      '1989': 3000,
+                      '1999': 5000,
+                  },
+              },
+              "geometry": {
+                  "type": "Point",
+                  "coordinates": [
+                    72.0428466796875,
+                    49.427053613259595
+                  ],
+              }
+          },
+      ]
     };
     
     
@@ -1031,133 +1060,247 @@ if(contentMap) {
             'line-width': 3
             }
         });
-        // pointer
-        map.addSource('geojson', {
+        // lag
+        map.addSource('geojsonLags', {
             'type': 'geojson',
-            'data': geojson
+            'data': geojsonLags
         });
         map.addLayer({
-            id: 'circle',
+            id: 'point',
             type: 'circle',
-            source: 'geojson',
+            source: 'geojsonLags',
             paint: {
-                'circle-color': '#be4f4f',
+                // 'circle-color': '#be4f4f',
+                'circle-radius': 3,
+                'circle-stroke-width': 25,
+                'circle-opacity': 0,
+                // 'circle-stroke-color': '#e47171',
+                'circle-stroke-opacity': 0,
+            },
+            filter: ['in', '$type', 'Point'],
+        });
+        // add markers to map LAGS
+        for (const feature of geojsonLags.features) {
+          // create a HTML element for each feature
+          const el = document.createElement('div');
+          el.className = 'lags';
+          // make a marker for each feature and add to the map
+          new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
+        }
+        // administrative center
+        map.addSource('geojsonAdmins', {
+          'type': 'geojson',
+          'data': geojsonAdmins
+        });
+        map.addLayer({
+            id: 'AdminCenters',
+            type: 'circle',
+            source: 'geojsonAdmins',
+            paint: {
+                // 'circle-color': '#be4f4f',
                 'circle-radius': 3,
                 'circle-stroke-width': 13,
-                'circle-stroke-color': '#e47171',
-                'circle-stroke-opacity' : 0.2,
+                'circle-opacity': 0,
+                // 'circle-stroke-color': '#e47171',
+                'circle-stroke-opacity' : 0,
             },
-            filter: ['in', '$type', 'Point']
+            filter: ['in', '$type', 'Point'],
+            layout: {
+              'visibility': 'visible'
+            },
         });
+        // add markers to map
+        for (const feature of geojsonAdmins.features) {
+          // create a HTML element for each feature
+          const el = document.createElement('div');
+          el.className = 'admins';
+          // make a marker for each feature and add to the map
+          new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
+        }
     });
-    map.on('click', 'circle', (e) => {
+    map.on('click', (e) => {
         const features = map.queryRenderedFeatures(e.point, {
-            layers: ['circle']
+            layers: ['point', 'AdminCenters']
         });
-        let objTitle = features[0]?.properties.title;
-        let objSize = features[0]?.properties.size;
-        let objHistory = features[0]?.properties.history;
-        let objSource = features[0]?.properties.source;
-        let objLink = features[0]?.properties.link;
-        let objFiles = features[0]?.properties.files ? JSON.parse(features[0]?.properties.files) : 0;
-        let objStats = features[0]?.properties.stats ? JSON.parse(features[0]?.properties.stats) : 0;
-        // console.log(objTitle)
-        // console.log(objSize)
-        // console.log(objHistory.split(','))
-        // console.log(objSource)
-        // console.log(objLink)
-        // console.log(objFiles)
-        // console.log(typeof(objStats))
-    
-        if (pointCurrentId === features[0].properties.id) {
-            // e.preventDefault();
-        } else {
-            pointCurrentId = features[0].properties.id;
-            // Анимация появления блока
-            if(contentPrison.classList.contains('active')) {
-              contentPrison.animate([
-                { transform: 'translateY(40%)' },
-                { transform: 'translateY(0%)' },
-            ], { duration: 400, fill: 'forwards', easing: 'ease-in' });
-            }
-            // Вывод контента 
-            htmlMapTitle.textContent = objTitle; //Заголовок
-            htmlMapSize.textContent = objSize //Размер населённого пункта
-            htmlMapHistory.innerHTML = objHistory //История лагеря
-            htmlMapSource.textContent = objSource //Источник
-            htmlMapLink.innerHTML = objLink //Ссылка
-            htmlMapLink.setAttribute('href', objLink)
-            // Вывод изображений
-            if(objFiles != 0) {
-                htmlMapFiles.innerHTML = '';
-                objFiles.forEach((img, i) => {
-                    htmlMapFiles.innerHTML += `<img src="${objFiles[i]}" >`;
-                })
-            } else {
-                htmlMapFiles.innerHTML = '';
-            }
-            // Вывод статистики заключенных
-            htmlMapGrafic.innerHTML= '';
-            Object.keys(objStats).forEach((key, i) => {
-                htmlMapGrafic.innerHTML += `
-                    <div class="info__content-line">
-                    <div class="info__content-date js-date">${Object.keys(objStats)[i]}</div>
-                    <div class="info__content-count">
-                        <span class="js-count-prisoner">${Object.values(objStats)[i]}</span>
-                    </div>
-                    </div>
-                `
-            })
-            let nodeStats = document.querySelectorAll('.info__content-count span');
-            let nodeLineStats = document.querySelectorAll('.info__content-count');
-            let statsWidth = document.querySelector('.info__content-grafic').offsetWidth;
-            let arrayStats = [];
-            nodeStats.forEach(item => { arrayStats.push(parseInt(item.textContent)) })
-        
-            function getMaxOfArray(numArray) {
-                return Math.max.apply(null, numArray);
-            }
-            let scaleX = d3.scaleLinear()
-                .domain([0, getMaxOfArray(arrayStats)])
-                .range([0, statsWidth - 100]);
-            nodeLineStats.forEach((line, i) => {
-                if (arrayStats[i] === 0) {
-                    line.querySelector('span').textContent = 'нет данных';
-                }
-                line.style.width = `${parseInt(scaleX(arrayStats[i]))}px`
-            })
-        }
-        // Перемещение карты в центральное положение относительно активного поинта
-        map.flyTo({
-            center: [
-                e.lngLat.lng,
-                e.lngLat.lat
-            ],
-            essential: true
-        })
-        // Первое открытие контента
-        if (!contentPrison.classList.contains('active')) {
-          contentPrison.classList.add('active');
-          contentMap.classList.add('active');
-          contentPrison.animate([
-              { top: '100vh' },
-              { top: '30%' },
-          ], { duration: 500, fill: 'forwards' });
-          // contentPrison.style.top = '0%';
-          // Сдвигаем карту на 30% вверх
-
+        // console.log(features[0]?.properties)
+        if(features[0]?.properties != undefined) {
+          let objTitle = features[0]?.properties.title;
+          let objSize = features[0]?.properties.size;
+          let objHistory = features[0]?.properties.history;
+          let objSource = features[0]?.properties.source;
+          let objLink = features[0]?.properties.link;
+          let objFiles = features[0]?.properties.files ? JSON.parse(features[0]?.properties.files) : 0;
+          let objStats = features[0]?.properties.stats ? JSON.parse(features[0]?.properties.stats) : 0;
+          if (pointCurrentId === features[0].properties.id) {
+              // e.preventDefault();
+          } else {
+              pointCurrentId = features[0].properties.id;
+              // Анимация появления блока
+              if(contentPrison.classList.contains('active')) {
+                contentPrison.animate([
+                  { transform: 'translateY(40%)' },
+                  { transform: 'translateY(0%)' },
+              ], { duration: 400, fill: 'forwards', easing: 'ease-in' });
+              }
+              // Вывод контента 
+              htmlMapTitle.textContent = objTitle; //Заголовок
+              htmlMapSize.textContent = objSize //Размер населённого пункта
+              htmlMapHistory.innerHTML = objHistory //История лагеря
+              htmlMapSource.textContent = objSource //Источник
+              htmlMapLink.innerHTML = objLink //Ссылка
+              htmlMapLink.setAttribute('href', objLink)
+              // Вывод изображений
+              if(objFiles != 0) {
+                  htmlMapFiles.innerHTML = '';
+                  objFiles.forEach((img, i) => {
+                      htmlMapFiles.innerHTML += `<img src="${objFiles[i]}" >`;
+                  })
+              } else {
+                  htmlMapFiles.innerHTML = '';
+              }
+              // Вывод статистики заключенных
+              htmlMapGrafic.innerHTML= '';
+              Object.keys(objStats).forEach((key, i) => {
+                  htmlMapGrafic.innerHTML += `
+                      <div class="info__content-line">
+                      <div class="info__content-date js-date">${Object.keys(objStats)[i]}</div>
+                      <div class="info__content-count">
+                          <span class="js-count-prisoner">${Object.values(objStats)[i]}</span>
+                      </div>
+                      </div>
+                  `
+              })
+              let nodeStats = document.querySelectorAll('.info__content-count span');
+              let nodeLineStats = document.querySelectorAll('.info__content-count');
+              let statsWidth = document.querySelector('.info__content-grafic').offsetWidth;
+              let arrayStats = [];
+              nodeStats.forEach(item => { arrayStats.push(parseInt(item.textContent)) })
+          
+              function getMaxOfArray(numArray) {
+                  return Math.max.apply(null, numArray);
+              }
+              let scaleX = d3.scaleLinear()
+                  .domain([0, getMaxOfArray(arrayStats)])
+                  .range([0, statsWidth - 100]);
+              nodeLineStats.forEach((line, i) => {
+                  if (arrayStats[i] === 0) {
+                      line.querySelector('span').textContent = 'нет данных';
+                  }
+                  line.style.width = `${parseInt(scaleX(arrayStats[i]))}px`
+              })
+          }
+          // Перемещение карты в центральное положение относительно активного поинта
+          map.flyTo({
+              center: [
+                  e.lngLat.lng,
+                  e.lngLat.lat
+              ],
+              essential: true
+          })
+          // Первое открытие контента
+          if (!contentPrison.classList.contains('active')) {
+            contentPrison.classList.add('active');
+            contentMap.classList.add('active');
+            contentPrison.animate([
+                { top: '100vh' },
+                { top: '30%' },
+            ], { duration: 500, fill: 'forwards' });
+            // contentPrison.style.top = '0%';
+            // Сдвигаем карту на 30% вверх
+            filterShowHide(1,0,'none');
+          }
         }
     });
-    
+
+    // filterShowHide
+    function filterShowHide(a,b,pointer) {
+      let filterBlock = filter.animate([
+        {opacity: a},
+        {opacity: b}
+      ], {duration: 400, easing: 'ease-out', fill: 'forwards'})
+      filterBlock.addEventListener('finish', () => {filter.style.pointerEvents = `${pointer}`});
+    }
+
     // hover cursor pointer on point
-    map.on('mouseenter', 'circle', () => {
+    map.on('mouseenter', 'point', () => {
         map.getCanvas().style.cursor = 'pointer';
     });
-    
     // cursor default outer point
-    map.on('mouseleave', 'circle', () => {
+    map.on('mouseleave', 'point', () => {
         map.getCanvas().style.cursor = ''
     })
+
+    let filter = document.querySelector('.filter');
+    if(filter) {
+      let allType = document.querySelector('#type-all');
+      let lagType = document.querySelector('#type-lag');
+      let admType = document.querySelector('#type-admin');
+      console.log(allType)
+      console.log(lagType)
+      console.log(admType)
+      allType.addEventListener('click', () => {
+        if(allType.checked) {
+          map.setLayoutProperty('point', 'visibility', 'visible');
+          lagType.checked = true;
+          admType.checked = true;
+          document.querySelectorAll('.lags').forEach(item => {
+            item.style.opacity = 1;
+          })
+          document.querySelectorAll('.admins').forEach(item => {
+            item.style.opacity = 1;
+          })
+        } else {
+          map.setLayoutProperty('point', 'visibility', 'none');
+          lagType.checked = false;
+          admType.checked = false;
+          document.querySelectorAll('.lags').forEach(item => {
+            item.style.opacity = 0;
+          })
+          document.querySelectorAll('.admins').forEach(item => {
+            item.style.opacity = 0;
+          })
+        }
+      });
+      lagType.addEventListener('click', () => {
+        if(lagType.checked) {
+          map.setLayoutProperty('point', 'visibility', 'visible');
+          document.querySelectorAll('.lags').forEach(item => {
+            item.style.opacity = 1;
+          })
+        } else {
+          map.setLayoutProperty('point', 'visibility', 'none');
+          document.querySelectorAll('.lags').forEach(item => {
+            item.style.opacity = 0;
+          })
+        }
+        if(lagType.checked && admType.checked) {
+          allType.checked = true;
+        }
+        if(!lagType.checked && !admType.checked) {
+          allType.checked = false;
+        }
+      });
+      admType.addEventListener('click', () => {
+        if(admType.checked) {
+          map.setLayoutProperty('AdminCenters', 'visibility', 'visible');
+          document.querySelectorAll('.admins').forEach(item => {
+            item.style.opacity = 1;
+          })
+        } else {
+          map.setLayoutProperty('AdminCenters', 'visibility', 'none');
+          document.querySelectorAll('.admins').forEach(item => {
+            item.style.opacity = 0;
+          })
+        }
+        if(lagType.checked && admType.checked) {
+          allType.checked = true;
+        }
+        if(!lagType.checked && !admType.checked) {
+          allType.checked = false;
+        }
+      });
+    }
+
 }
 let pointCurrentId;
 let htmlMapTitle = document.querySelector('.js-title');
@@ -1182,7 +1325,7 @@ if(closeMap) {
         contentAnimate.addEventListener('finish', () => {
           contentPrison.classList.remove('active')
         })
-
+            filterShowHide(0,1,'unset');
             contentMap.classList.remove('active')
         }
     })
@@ -1285,11 +1428,11 @@ window.onload = () => {
           {opacity: '1'}
         ], {
           duration: 100,
-          delay: 300*i, 
+          delay: 250*i, 
           easing: 'ease-in'});
           animSpan.addEventListener('finish', () => {
             clearTimeout(spanAnimationTimeout);
-            spanAnimationTimeout = setTimeout(animationSpan, 500);
+            spanAnimationTimeout = setTimeout(animationSpan, 400);
           })
           function animationSpan() {
               let animationElements = document.querySelectorAll('.js-anim');
@@ -1297,24 +1440,20 @@ window.onload = () => {
               let animItem = item.animate([
                 {opacity: '0'},
                 {opacity: '1'}
-              ], {duration: 600, delay: 500*i, easing: 'ease-out', fill: 'forwards'});
+              ], {duration: 350, delay: 250*i, easing: 'ease-out', fill: 'forwards'});
               animItem.addEventListener('finish', () => {
                 clearTimeout(opacityAnimationTimeout);
                 opacityAnimationTimeout = setTimeout(()=>{document.querySelector('body').style.overflow = 'unset';}, 500);
               })
             })
           }
-      })
-    }
-    let mainSection = document.querySelector('.hero');
-    if(mainSection) {
-      mainSection.style.height = 100 + 'vh';
+        })
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     let prisonCards = document.querySelectorAll('.prison__item');
-    let prisonParent = document.querySelector('.prison__items');
+    // let prisonParent = document.querySelector('.prison__items');
     if (prisonCards) {
         prisonCards.forEach(card => {
             card.addEventListener('mouseover', () => {
