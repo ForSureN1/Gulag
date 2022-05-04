@@ -1393,6 +1393,7 @@ window.onload = () => {
         })
     }
     let preloader = document.querySelector('.preloader');
+    let mainBody = document.querySelector('.mainbody');
     if(preloader && contentMap) {
       map.on('load', () => {
         closePreloader();
@@ -1400,7 +1401,9 @@ window.onload = () => {
       })
     } else if(preloader) {
       closePreloader();
-      document.querySelector('body').style.overflow = 'unset';
+      if(!mainBody) {
+        document.querySelector('body').style.overflow = 'unset';
+      }
     }
     function closePreloader() {
       let animpreloader = preloader.animate([
@@ -1411,7 +1414,6 @@ window.onload = () => {
         preloader.style.display = 'none';
       })
     }
-    let mainBody = document.querySelector('.mainbody');
     if(mainBody) {
       let mainText = document.querySelector('.hero__title');
       let mainTextSplit = mainText.textContent.split('');
@@ -1524,4 +1526,34 @@ document.addEventListener('DOMContentLoaded', () => {
             langDownBlock.classList.toggle('active');
         })
     }
+
+    // tabs prison
+    let publicSec = document.querySelector('.public');
+
+    function tabsPrison() {
+        let descParentTabs = document.querySelector('.content__tabs')
+        let btn = document.querySelectorAll('.content__tab');
+        let block = document.querySelectorAll('.content__item-tab');
+        btn.forEach((key, index) => {
+            key.addEventListener('click', function() {
+                block.forEach((item, itemindex) => {
+                    item.classList.toggle('active', index === itemindex)
+                    item.animate([{ opacity: 0 }, { opacity: 1, }], { duration: 300 })
+                });
+            });
+        });
+        descParentTabs.addEventListener('click', (e) => {
+            const target = e.target
+            if (target.classList.contains('content__tab')) {
+                btn.forEach(item => {
+                    item.classList.remove('active')
+                })
+            }
+            target.classList.add('active')
+        });
+    }
+    if (publicSec) {
+      tabsPrison();
+    }
+
 })
