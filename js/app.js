@@ -1425,32 +1425,31 @@ window.onload = () => {
       let spanMainText = mainText.querySelectorAll('span');
       let spanAnimationTimeout;
       let opacityAnimationTimeout;
-      spanMainText.forEach((span, i) => {
-        let animSpan = span.animate([
-          {opacity: '0'},
-          {opacity: '1'}
-        ], {
-          duration: 100,
-          delay: 250*i, 
-          easing: 'ease-in'});
-          animSpan.addEventListener('finish', () => {
-            clearTimeout(spanAnimationTimeout);
-            spanAnimationTimeout = setTimeout(animationSpan, 400);
-          })
-          function animationSpan() {
-              let animationElements = document.querySelectorAll('.js-anim');
-              animationElements.forEach((item, i) => {
-              let animItem = item.animate([
-                {opacity: '0'},
-                {opacity: '1'}
-              ], {duration: 350, delay: 250*i, easing: 'ease-out', fill: 'forwards'});
-              animItem.addEventListener('finish', () => {
-                clearTimeout(opacityAnimationTimeout);
-                opacityAnimationTimeout = setTimeout(()=>{document.querySelector('body').style.overflow = 'unset';}, 500);
-              })
+        spanMainText.forEach((span, i) => {
+          let animSpan = span.animate([
+            {opacity: '0'},
+            {opacity: '1'}
+          ], {
+            duration: 500,
+            delay: 250*i});
+            animSpan.addEventListener('finish', () => {
+              clearTimeout(spanAnimationTimeout);
+              spanAnimationTimeout = setTimeout(animationSpan, 400);
             })
-          }
-        })
+            function animationSpan() {
+                let animationElements = document.querySelectorAll('.js-anim');
+                animationElements.forEach((item, i) => {
+                let animItem = item.animate([
+                  {opacity: '0'},
+                  {opacity: '1'}
+                ], {duration: 350, delay: 250*i, easing: 'ease-out', fill: 'forwards'});
+                animItem.addEventListener('finish', () => {
+                  clearTimeout(opacityAnimationTimeout);
+                  opacityAnimationTimeout = setTimeout(()=>{document.querySelector('body').style.overflow = 'unset';}, 500);
+                })
+              })
+            }
+          })
     }
 }
 

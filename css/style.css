@@ -462,7 +462,7 @@ select {
   position: relative;
   display: flex;
   height: 100%;
-  background: url("../img/prisonBG.jpg") center no-repeat;
+  background: url("../img/prisBG.jpg") center no-repeat;
   background-size: cover;
   flex-wrap: wrap;
 }
@@ -1401,6 +1401,190 @@ select {
   font-size: 16px;
 }
 
+.publications__info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 42px;
+}
+
+.team__info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+}
+
+.team__info-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+.team__info-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ffffff;
+  font-weight: 500;
+}
+
+.team__card {
+  display: flex;
+  justify-content: flex-start;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  position: relative;
+}
+
+.team__card-img {
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.team__card-img img {
+  transition: 0.15s ease-in;
+  transform: scale(1.1);
+}
+
+.team__card-img:hover img {
+  transform: scale(1);
+}
+
+.team__card-info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.team__card-name {
+  font-weight: 500;
+  transition: 0.15s ease-in;
+  text-decoration: underline;
+  color: #33CC99;
+}
+
+.team__card-name:hover {
+  color: #4f6ac3;
+}
+
+.team__card-text {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 130%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.team__card-email {
+  font-size: 16px;
+  font-weight: 300;
+  transition: 0.15s ease-in;
+  text-decoration: underline;
+}
+
+.team__card-email:hover {
+  color: #4f6ac3;
+}
+
+.team__text {
+  font-size: 16px;
+  line-height: 130%;
+  margin-top: 40px;
+}
+
+.team__info-text {
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  line-height: 130%;
+}
+
+.team__info-text a {
+  transition: 0.15s linear;
+  color: #33CC99;
+}
+
+.team__info-text a:hover {
+  color: #4f6ac3;
+}
+
+.cultures {
+  height: 100vh;
+  min-height: 600px;
+}
+
+.cultures__container {
+  height: 100%;
+}
+
+.cultures__items {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../img/prisBG.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cultures__item {
+  position: relative;
+  display: block;
+  width: 33.333%;
+  height: 100%;
+}
+
+.cultures__item img:not(.decor) {
+  transition: 0.2s ease-in;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.cultures__item:hover img {
+  opacity: 1;
+}
+
+.cultures__item:hover .cultures__item-title {
+  color: #ffffff;
+}
+
+.cultures__item::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+  z-index: 1;
+}
+
+.cultures__item-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 289px;
+  transition: 0.15s linear;
+  font-size: 50px;
+  font-family: Horta;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.5);
+  z-index: 2;
+}
+
+.cultures__item-title span {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+}
+
 @media (max-width: 1650px) {
   .container {
     max-width: 1400px;
@@ -1495,6 +1679,10 @@ select {
   .content__title {
     font-size: 60px;
   }
+
+  .cultures__item-title {
+    font-size: 46px;
+  }
 }
 
 @media (max-width: 1350px) {
@@ -1527,6 +1715,13 @@ select {
 
   .info__content-images img {
     height: 160px;
+  }
+
+  .cultures__item-title {
+    text-align: center;
+    bottom: auto;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
@@ -1721,6 +1916,10 @@ select {
     height: 180px;
     margin-right: 20px;
   }
+
+  .cultures__item-title {
+    font-size: 38px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1800,6 +1999,19 @@ select {
 
   .content__tabs {
     margin-top: 30px;
+  }
+
+  .cultures__items {
+    flex-direction: column;
+  }
+
+  .cultures__item-title {
+    font-size: 36px;
+    white-space: unset;
+  }
+
+  .cultures__item {
+    width: 100%;
   }
 }
 
@@ -1951,6 +2163,10 @@ select {
   .slider__item:nth-child(2n+2) .slider__item-img:nth-child(3) {
     right: auto;
   }
+
+  .cultures__item-title {
+    white-space: nowrap;
+  }
 }
 
 @media (max-width: 550px) {
@@ -1969,6 +2185,7 @@ select {
   }
 
   .header__lang {
+    display: none;
     -moz-column-gap: 16px;
          column-gap: 16px;
   }
@@ -2045,6 +2262,23 @@ select {
   .blog__card-text {
     font-size: 14px;
   }
+
+  .team__card {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .team__card-name {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .team__card-email {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
 }
 
 @media (max-width: 420px) {
@@ -2072,6 +2306,21 @@ select {
   .info__content-images {
     -ms-grid-columns: (1fr)[1];
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  .team__card {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding-bottom: 0;
+  }
+
+  .team__card-info {
+    row-gap: 10px;
+  }
+
+  .team__card-email {
+    position: relative;
   }
 }
 
