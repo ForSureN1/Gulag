@@ -1431,7 +1431,7 @@ window.onload = () => {
             {opacity: '1'}
           ], {
             duration: 500,
-            delay: 250*i});
+            delay: 150*i});
             animSpan.addEventListener('finish', () => {
               clearTimeout(spanAnimationTimeout);
               spanAnimationTimeout = setTimeout(animationSpan, 400);
@@ -1555,4 +1555,53 @@ document.addEventListener('DOMContentLoaded', () => {
       tabsPrison();
     }
 
+    // scroll animation decor elem
+    let decorElem = document.querySelector('.decor-elem');
+    let startScroll = scrollY;
+    if(decorElem) {
+      let count = 0;
+      document.addEventListener('scroll', () => {
+        if(scrollY > startScroll || (scrollY + window.innerHeight) === document.querySelector('body').offsetHeight) {
+          count = count + 5;
+        } else {
+          count = count - 5;
+        }
+        startScroll = scrollY;
+        decorElem.style.transform = `rotate(${count}deg)`;
+      })
+    }
+
+    
+    // scroll to slider
+    let secSlider = document.querySelector('.slider');
+    let flagSecSlider = false;
+    if(secSlider) {
+      let secSliderY = secSlider.offsetTop;
+      window.addEventListener('scroll', () => {
+        // if(scrollY)
+        console.log(secSliderY)
+        console.log(scrollY)
+        if(scrollY > (secSliderY / 2 + 200) && flagSecSlider === false){
+          flagSecSlider = true;
+          window.scrollTo({
+            top: secSliderY,
+            behavior: "smooth",
+          });
+        }
+      }) 
+    }
+
+    // skip slider Section
+    let skipSection = document.querySelector('.skip-slider');
+    if(skipSection) {
+      skipSection.addEventListener('click', () => {
+        window.scrollTo({
+          top: document.querySelector('.partners').offsetTop,
+          behavior: "smooth",
+        })
+        skipSection.style.opacity = '0';
+      })
+    }
+
 })
+
