@@ -1579,8 +1579,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let secSliderY = secSlider.offsetTop;
       window.addEventListener('scroll', () => {
         // if(scrollY)
-        console.log(secSliderY)
-        console.log(scrollY)
+        // console.log(secSliderY)
+        // console.log(scrollY)
         if(scrollY > (secSliderY / 2 + 200) && flagSecSlider === false){
           flagSecSlider = true;
           window.scrollTo({
